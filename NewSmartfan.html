@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SmartFan — SixTech Team</title>
+<!-- Google Font: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+html {
+  scroll-behavior: smooth;
+}
+  :root{
+    --bg:#07070a;
+    --panel:#0f1720;
+    --muted:#a9b2bc;
+    --emerald:#10b981;
+    --emerald-2:#06ad6b;
+    --glass: rgba(255,255,255,0.03);
+    * {
+  font-family: 'Poppins', sans-serif;
+  scroll-behavior: smooth;
+}
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:
+      radial-gradient(600px 220px at 10% 12%, rgba(16,185,129,0.06), transparent 8%),
+      radial-gradient(500px 180px at 90% 88%, rgba(124,58,237,0.02), transparent 8%),
+      var(--bg);
+    color:#e9f1f5;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    line-height:1.5;
+    scroll-behavior:smooth;
+  }
+
+  header{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter: blur(6px);
+    background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.06));
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    padding:14px 16px; display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--emerald),#048a5f);display:flex;align-items:center;justify-content:center;font-weight:800;color:#02120b}
+  .brand .title{font-weight:700;font-size:16px}
+  nav a{color:var(--muted);text-decoration:none;margin-left:12px;font-size:14px}
+  nav a:hover{color:#fff}
+
+  .container{max-width:1100px;margin:28px auto;padding:0 16px}
+
+  /* Hero */
+  .hero{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:center}
+  .hero-left .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:var(--emerald);color:#02120b;font-weight:700;font-size:13px}
+  .hero-left h1{font-size:32px;margin:12px 0 8px}
+  .hero-left p.lead{color:var(--muted);max-width:56ch}
+  .hero-card{margin-top:14px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;display:flex;gap:12px;align-items:center}
+  .thumb{width:140px;height:120px;border-radius:10px;overflow:hidden;background:#041018;display:flex;align-items:center;justify-content:center}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--emerald);color:#02120b;text-decoration:none;font-weight:700}
+
+  /* sections */
+  section{margin-top:20px;opacity:0;transform:translateY(16px);transition:all .7s cubic-bezier(.2,.9,.3,1)}
+  section.visible{opacity:1;transform:translateY(0)}
+  h2.section-title{color:var(--emerald);margin-bottom:10px;font-size:18px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .card{background:var(--panel);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+
+  /* table */
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:8px 10px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.03);color:var(--muted)}
+  th{color:#fff;font-weight:700}
+  .total{font-weight:800;color:#fff}
+
+  /* documentation gallery */
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .gallery img{width:100%;height:100px;object-fit:cover;border-radius:8px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(2,6,8,0.45);transition:transform .35s ease}
+  .gallery img:hover{transform:scale(1.03)}
+
+  /* price card */
+  .price-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border-radius:10px;background:linear-gradient(90deg, rgba(2,6,8,0.55), rgba(6,15,20,0.5));border:1px solid rgba(255,255,255,0.03)}
+  .price-card .price{font-size:20px;font-weight:900;color:var(--emerald)}
+  .muted{color:var(--muted)}
+
+  footer{margin-top:28px;padding:18px;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,0.03)}
+
+  /* responsive */
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr 300px}
+    .grid3{grid-template-columns:repeat(2,1fr)}
+    .gallery{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:640px){
+    .hero{grid-template-columns:1fr;gap:12px}
+    .thumb{width:100%;height:180px}
+    .grid3{grid-template-columns:1fr}
+    .gallery{grid-template-columns:1fr}
+  }
+  /* === Popup Galeri === */
+.popup {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn .3s ease;
+}
+.popup img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.5);
+  transform: scale(0.8);
+  animation: zoomIn .3s ease forwards;
+}
+.popup.active { display: flex; }
+
+@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+@keyframes zoomIn { to {transform: scale(1);} }
+/* ==== Animasi Smooth Saat Scroll ==== */
+section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.9s ease-out;
+}
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Tambahan animasi lembut untuk elemen di dalam section */
+section .card, section img, section p, section h2 {
+  transition: transform 0.8s ease, opacity 0.8s ease;
+}
+
+/* Efek hover elegan untuk card */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+}
+h1, h2 {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+.visible h1, .visible h2 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">SF</div>
+    <div>
+      <div class="title">SmartFan</div>
+      <div style="font-size:12px;color:var(--muted)">SixTech Team · IoT Project</div>
+    </div>
+  </div>
+  <nav>
+    <a href="#detail">Rincian</a>
+    <a href="#harga">Harga</a>
+    <a href="#dok">Dokumentasi</a>
+    <a href="#kontak">Kontak</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- HERO -->
+  <section id="hero" class="visible">
+    <div class="hero" aria-label="Hero SmartFan">
+      <div class="hero-left">
+        <span class="kicker">Smart IoT</span>
+        <h1>SmartFan — Kontrol Kipas dari HP</h1>
+        <p class="lead">SmartFan memungkinkan kamu menyalakan atau mematikan kipas langsung dari ponsel menggunakan modul <strong>ESP8266</strong> dan aplikasi <strong>Blynk</strong>. Solusi simpel untuk anda yang sedang mencari produk IoT sederhana.</p>
+
+        <div class="hero-card" role="region" aria-label="Ringkasan">
+          <div style="flex:1">
+            <div style="font-size:13px;color:var(--muted)">Harga </div>
+            <div style="font-weight:900;font-size:20px;margin-top:6px;color:var(--emerald)">Rp 199.000</div>
+            <div style="color:var(--muted);font-size:13px;margin-top:8px">Termasuk: ESP8266, Relay, Kabel, Kipas, Baterai & Panduan Lengkap Cara Merakit</div>
+          </div>
+          <div style="text-align:right">
+            <a class="btn" href="#kontak">Pesan / Hubungi</a>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-right">
+        <div class="card" style="padding:12px">
+          <div class="thumb">
+            <!-- ganti src dengan foto produkmu setelah upload di Acode -->
+            <img id="main-photo" src="Doc4.jpg" alt="Foto SmartFan">
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+            <div style="font-size:13px;color:var(--muted)">Status</div>
+            <div style="font-weight:800;color:#dffcf1">Ready Stock</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- fitur -->
+  <section id="fitur">
+    <h2 class="section-title">Fitur Unggulan</h2>
+    <div class="grid3">
+      <div class="card">
+        <h3>Kontrol Jarak Jauh</h3>
+        <p class="muted">Nyalakan/matikan dan atur kecepatan melalui smartphone menggunakan Blynk atau Web Cloud.</p>
+      </div>
+      <div class="card">
+        <h3>Instalasi Mudah</h3>
+        <p class="muted">Panduan lengkap tersedia, cocok untuk pemula dan tugas sekolah.</p>
+      </div>
+      <div class="card">
+        <h3>Efisiensi</h3>
+        <p class="muted">Pengaturan PWM  (Pulse Width Modulation) memungkinkan untuk menyalakan dan mematikan daya listrik dengan cepat.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- rincian & komponen -->
+  <section id="detail">
+    <h2 class="section-title">Rincian Produk & Komponen</h2>
+    <div class="card">
+      <p class="muted">SmartFan adalah modul kontrol kipas sederhana berbasis ESP8266 yang dirancang untuk kebutuhan siswa yang ingin belajar tentang IoT.</p>
+
+      <h3 style="margin-top:12px">Komponen & Harga Satuan</h3>
+      <table aria-label="Tabel komponen">
+        <thead>
+          <tr><th>Komponen</th><th>Harga (Rp)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ESP8266 NodeMCU (Type-C)</td><td>35.000</td></tr>
+          <tr><td>Relay 5V</td><td>5.000</td></tr>
+          <tr><td>Kabel jumper</td><td>25.000</td></tr>
+          <tr><td>Kipas DC 12V</td><td>15.000</td></tr>
+          <tr><td>Baterai 9V</td><td>12.000</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td class="total">Total Biaya Komponen</td><td class="total">92.000</td></tr>
+        </tfoot>
+      </table>
+
+      <div style="margin-top:12px" class="muted"></div>
+    </div>
+  </section>
+
+  <!-- harga -->
+  <section id="harga">
+    <h2 class="section-title">Harga & Paket</h2>
+    <div class="card price-card">
+      <div>
+        <div style="color:var(--muted);font-size:13px">Harga Jual</div>
+        <div class="price">Rp 199.000</div>
+        <div style="color:var(--muted);font-size:13px;margin-top:6px">Margin (estimasi): Rp 107.000</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:13px;color:var(--muted)">Paket Termasuk</div>
+        <div style="font-weight:700;margin-top:6px">Unit SmartFan + Panduan Lengkap Cara Merakit</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- dokumentasi -->
+  <section id="dok">
+    <h2 class="section-title">Dokumentasi Foto</h2>
+    <div class="card">
+      <p class="muted"></p>
+
+      <div class="gallery" style="margin-top:10px">
+        <!-- Ganti src masing2 dengan file foto di projectmu -->
+        <img src="Doc1.jpg" alt="Dokumentasi 1">
+        <img src="Doc2.jpg" alt="Dokumentasi 2">
+        <img src="Doc3.jpg" alt="Dokumentasi 3">
+      </div>
+    </div>
+  </section>
+
+<!-- kontak -->
+<section id="kontak">
+  <h2 class="section-title">Kontak & Pemesanan</h2>
+  <div class="card">
+    <p class="muted">Untuk pemesanan, demo, atau kerja sama, hubungi:</p>
+    <p style="font-weight:800;margin-top:8px">SixTech Team</p>
+
+    <div class="contact-btns">
+      <a href="https://wa.link/r5j0un" target="_blank" class="btn">
+        💬 WhatsApp
+      </a>
+      <a href="https://www.instagram.com/adz.dzikriii" target="_blank" class="btn outline">
+        📷 Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+  <footer>
+    © <span id="year"></span> SmartFan — SixTech Team  Support by ChatGpt
+  </footer>
+
+</main>
+<!-- Popup viewer -->
+<div class="popup" id="popup">
+  <img id="popup-img" src="" alt="">
+</div>
+<script>
+  // set year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // simple reveal on scroll for smooth appearance
+  function revealOnScroll(){
+    const sections = document.querySelectorAll('main section');
+    const windowH = window.innerHeight;
+    sections.forEach(sec=>{
+      const rect = sec.getBoundingClientRect();
+      if(rect.top < windowH - 80) sec.classList.add('visible');
+    });
+  }
+  window.addEventListener('scroll', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+
+document.querySelectorAll('.gallery img').forEach(img => {
+  img.addEventListener('click', () => {
+    popupImg.src = img.src;
+    popup.classList.add('active');
+    });
+  });
+  // === Popup image viewer ===
+const popup = document.getElementById('popup');
+const popupImg = document.getElementById('popup-img');
+
+document.querySelectorAll('.gallery img').forEach(img => {
+  img.addEventListener('click', () => {
+    popupImg.src = img.src;
+    popup.classList.add('active');
+  });
+});
+
+popup.addEventListener('click', () => {
+  popup.classList.remove('active');
+});
+// === Animasi muncul halus saat scroll ===
+function revealSections() {
+  const sections = document.querySelectorAll('section');
+  const triggerPoint = window.innerHeight - 100;
+
+  sections.forEach(sec => {
+    const rect = sec.getBoundingClientRect();
+    if (rect.top < triggerPoint) sec.classList.add('visible');
+  });
+}
+
+window.addEventListener('scroll', revealSections);
+window.addEventListener('load', revealSections);
+</script>
+</body>
+</html>
